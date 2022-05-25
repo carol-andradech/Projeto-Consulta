@@ -1,20 +1,25 @@
 package br.edu.iff.projetoConsulta.model;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.validator.constraints.Length;
 
 @Entity
+@JsonIgnoreProperties(value = "senha", allowGetters = false, allowSetters = true)
 public class Psicologo extends Pessoa {
 
-    @Column(nullable = false, length = 14, unique = true)
+    @Column(nullable = false, unique = true)
     @NotBlank(message = "CRP necessário.")
+    @Length(min = 7)
     private String crp;
     @Column(nullable = false)
     @NotBlank(message = "Senha obrigatória.")
@@ -25,9 +30,9 @@ public class Psicologo extends Pessoa {
     @NotNull(message = "Tipo de abordagem obrigatório.")
     private TipoAbordagemEnum tipo;
 
-    @OneToMany
-    @JoinColumn(name = "id_psicologo")
-    private List<Consulta> consultas;
+    @JsonIgnore
+    @OneToMany(mappedBy = "psicologo")
+    private List<Consulta> consultas = new ArrayList<>();
 
     public String getCrp() {
         return crp;

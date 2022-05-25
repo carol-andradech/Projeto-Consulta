@@ -1,4 +1,5 @@
 package br.edu.iff.projetoConsulta.model;
+import br.edu.iff.projetoConsulta.annotation.EmailValidation;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +20,7 @@ import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Pessoa implements Serializable {
+public abstract class Pessoa implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -33,6 +34,11 @@ public class Pessoa implements Serializable {
     @Column(nullable = false, length = 14, unique = true, updatable = false)
     @CPF(message = "CPF inválido.")
     private String cpf;
+
+    @Column(nullable = false, length = 100, unique = true, updatable = false)
+    @NotBlank(message = "Email obrigaório.")
+    @EmailValidation(message = "Email inválido.")
+    private String email;
 
     @Embedded
     @NotNull(message = "Endereço obrigatório.")
@@ -80,6 +86,14 @@ public class Pessoa implements Serializable {
 
     public void setCpf(String cpf) {
         this.cpf = cpf;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     @Override

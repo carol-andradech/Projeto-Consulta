@@ -13,10 +13,7 @@ public class Contato implements Serializable {
     @NotBlank(message = "Telefone obrigaório.")
     @Length(min = 13, max = 14, message = "Telefone deve ter 13 ou 14 caracteres (Ex: (99)9999-9999 ou (99)99999-9999).")
     private String telefone;
-    @Column(nullable = false, length = 100, unique = true, updatable = false)
-    @NotBlank(message = "Email obrigaório.")
-    //@EmailValidation(message = "Email inválido.")
-    private String email;
+
 
     public String getTelefone() {
         return telefone;
@@ -26,14 +23,6 @@ public class Contato implements Serializable {
         this.telefone = telefone;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -41,14 +30,11 @@ public class Contato implements Serializable {
 
         Contato contato = (Contato) o;
 
-        if (!telefone.equals(contato.telefone)) return false;
-        return email.equals(contato.email);
+        return telefone.equals(contato.telefone);
     }
 
     @Override
     public int hashCode() {
-        int result = telefone.hashCode();
-        result = 31 * result + email.hashCode();
-        return result;
+        return telefone.hashCode();
     }
 }

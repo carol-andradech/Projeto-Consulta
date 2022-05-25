@@ -1,30 +1,29 @@
 package br.edu.iff.projetoConsulta.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 public class Paciente extends Pessoa {
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true, length = 200)
     @NotBlank(message = "Prontuário necessário.")
-    private int prontuario;
+    private String prontuario;
 
-    @OneToMany
-    @JoinColumn(name = "id_paciente")
-    private List<Consulta> consultas;
+    @JsonIgnore
+    @OneToMany(mappedBy = "paciente")
+    private List<Consulta> consultas = new ArrayList<>();
 
 
-    public int getProntuario() {
+    public String getProntuario() {
         return prontuario;
     }
 
-    public void setProntuario(int prontuario) {
+    public void setProntuario(String prontuario) {
         this.prontuario = prontuario;
     }
 
